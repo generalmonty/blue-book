@@ -1,6 +1,6 @@
-// Blue Book v1.6+ — Secure Writer with Live Word Counter & Focus-Aware Tracking
+// Blue Book v1.7 — Secure Writer with Live Word Count + Paste Toast
+
 const editor = document.getElementById('editor');
-const newBtn = document.getElementById('newBtn');
 const submitBtn = document.getElementById('submitBtn');
 const titleInput = document.getElementById('titleInput');
 const nameInput = document.getElementById('nameInput');
@@ -16,8 +16,8 @@ let session = {
   _lastTick: Date.now()
 };
 
-// --- Tab + Activity Tracking ---
-const IDLE_THRESHOLD_MS = 10000; // 10 seconds
+// --- Track activity ---
+const IDLE_THRESHOLD_MS = 10000; // 10 seconds of idle before pausing timer
 let windowActive = true;
 
 window.addEventListener('blur', () => windowActive = false);
@@ -31,12 +31,12 @@ setInterval(() => {
   session._lastTick = now;
 }, 1000);
 
-// --- Keystroke & Word Count Tracking ---
+// --- Keystroke + Word Count Tracking ---
 editor.addEventListener('input', () => {
   session.keystrokes++;
   session.lastInputAt = Date.now();
 
-  // Live word count display
+  // Live word count update
   const words = editor.value.trim().split(/\s+/).filter(Boolean).length;
   wordCountDisplay.textContent = `${words} ${words === 1 ? 'word' : 'words'}`;
 });
@@ -58,7 +58,15 @@ editor.addEventListener('keydown', function (e) {
   }
 });
 
-// --- Utility: SHA-256 Hash ---
+// --- Toast Notification ---
+function showToast() {
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
+}
+
+// --- Hash Utility ---
 async function sha256Hex(str) {
   const enc = new TextEncoder();
   const data = enc.encode(str);
@@ -66,8 +74,9 @@ async function sha256Hex(str) {
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// --- Utility: Zero-Width Encoding ---
+// --- Zero-Width Encoding ---
 const ZW = ["\u200B", "\u200C", "\u200D", "\uFEFF"];
+
 function bytesToZW(bytes) {
   let bits = '';
   for (let i = 0; i < bytes.length; i++) bits += bytes[i].toString(2).padStart(8, '0');
@@ -78,6 +87,7 @@ function bytesToZW(bytes) {
   }
   return zw;
 }
+
 function encodeHidden(obj) {
   const json = JSON.stringify(obj);
   const b64 = btoa(unescape(encodeURIComponent(json)));
@@ -86,7 +96,7 @@ function encodeHidden(obj) {
   return bytesToZW(bytes);
 }
 
-// --- Utility: Word Count ---
+// --- Word Count Utility ---
 function getWordCount(txt) {
   const t = txt.trim();
   return t ? t.split(/\s+/).length : 0;
@@ -98,7 +108,7 @@ function calculateTypingDensity() {
   return Math.round(session.keystrokes / activeMinutes);
 }
 
-// --- Hidden Metadata Block ---
+// --- Hidden Metadata Generator ---
 async function makeHiddenBlock() {
   const text = editor.value;
   const words = getWordCount(text);
@@ -131,9 +141,3 @@ submitBtn.addEventListener('click', async () => {
   a.download = `${title} - ${name}.txt`;
   a.click();
 });
-
-// --- Toast ---
-function showToast() {
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
