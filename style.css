@@ -1,6 +1,7 @@
 html, body {
   height: 100%;
   margin: 0;
+  overflow: hidden; /* prevent overall scroll */
 }
 
 body {
@@ -21,12 +22,13 @@ body {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 800px; /* aligns perfectly with main content */
-  padding: 24px 0;
+  width: 800px;
+  padding: 24px 24px;
   background: #fafaf8;
-  border-top: 1px solid #E3D8D8;
+  border-top: 2px solid #FAFAF8;
   box-sizing: border-box;
   z-index: 10;
+  background-color: white;
 }
 
 /* --- Word Count --- */
@@ -88,35 +90,35 @@ body {
 main {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  flex: 1;                /* fills remaining vertical space */
-  width: 800px;           /* fixed column width */
-  margin: 0 auto;         /* center horizontally */
+  width: 800px;
+  margin: 40px auto 0 auto;
   padding: 50px;
   box-sizing: border-box;
-  border-left: 1px solid #E3D8D8;
-  border-right: 1px solid #E3D8D8;
-  min-height: 100vh;      /* ensure full viewport height */
-  padding-bottom: 140px;  /* room for bottom toolbar */
+  border-radius: 24px;
+  background-color: white;
+  height: calc(100vh - 40px - 50px); /* keep the panel inside viewport */
+  overflow: hidden; /* prevent body scroll */
 }
+
 textarea {
   flex: 1;
   width: 100%;
   box-sizing: border-box;
-
   border: none;
   resize: none;
   outline: none;
   font-size: 16px;
   line-height: 1.5;
   background: transparent;
-
-  /* ✅ Wrapping & overflow */
   white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: anywhere;
+
+  /* ✅ only the textarea scrolls */
+  overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 120px;
+
+  padding-bottom: 120px; /* space before toolbar */
 }
 
 
