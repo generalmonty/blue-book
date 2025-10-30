@@ -135,6 +135,31 @@ async function makeHiddenBlock() {
   return encodeHidden(meta);
 }
 
+// --- Warn before closing if unsaved content exists ---
+let hasDownloaded = false;
+
+// Track if the user has typed anything
+let hasTyped = false;
+editor.addEventListener('input', () => {
+  hasTyped = true;
+});
+
+// When they download (Submit), mark it as saved
+submitBtn.addEventListener('click', async () => {
+  hasDownloaded = true;
+  // existing submit logic stays as-is
+});
+
+// Confirmation on page unload
+window.addEventListener('beforeunload', (e) => {
+  if (hasTyped && !hasDownloaded) {
+    e.preventDefault();
+    // Most browsers show a generic warning message here
+    e.returnValue = '';
+  }
+});
+
+
 // --- Download submission ---
 submitBtn.addEventListener('click', async () => {
   const text = editor.value;
