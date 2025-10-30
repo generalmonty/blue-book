@@ -1,4 +1,4 @@
-// Blue Book v1.7 — Secure Writer with Live Word Count + Paste Toast
+// Blue Book v1.9.1 — Secure Writer with concise paste message
 
 const editor = document.getElementById('editor');
 const submitBtn = document.getElementById('submitBtn');
@@ -16,8 +16,8 @@ let session = {
   _lastTick: Date.now()
 };
 
-// --- Track activity ---
-const IDLE_THRESHOLD_MS = 10000; // 10 seconds of idle before pausing timer
+// --- Track active time ---
+const IDLE_THRESHOLD_MS = 10000; // 10 seconds idle = pause active tracking
 let windowActive = true;
 
 window.addEventListener('blur', () => windowActive = false);
@@ -31,23 +31,32 @@ setInterval(() => {
   session._lastTick = now;
 }, 1000);
 
-// --- Keystroke + Word Count Tracking ---
+// --- Track keystrokes + word count ---
 editor.addEventListener('input', () => {
   session.keystrokes++;
   session.lastInputAt = Date.now();
 
-  // Live word count update
   const words = editor.value.trim().split(/\s+/).filter(Boolean).length;
   wordCountDisplay.textContent = `${words} ${words === 1 ? 'word' : 'words'}`;
 });
 
-// --- Block Paste ---
+// --- Paste handler (blocks external, allows internal) ---
 editor.addEventListener('paste', (e) => {
+  const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+  const selectedText = editor.value.substring(editor.selectionStart, editor.selectionEnd);
+
+  // Allow paste if it matches something already in the editor (internal copy)
+  if (pastedText && editor.value.includes(pastedText)) return;
+
+  // Allow paste if it's identical to selected text (self-replacement)
+  if (pastedText === selectedText) return;
+
+  // Otherwise block and show toast
   e.preventDefault();
-  showToast();
+  showToast("Only text from this essay can be pasted.");
 });
 
-// --- Allow Tab Key ---
+// --- Allow Tab key for indentation ---
 editor.addEventListener('keydown', function (e) {
   if (e.key === 'Tab') {
     e.preventDefault();
@@ -58,15 +67,14 @@ editor.addEventListener('keydown', function (e) {
   }
 });
 
-// --- Toast Notification ---
-function showToast() {
+// --- Toast feedback ---
+function showToast(message = "Paste is disabled") {
+  toast.textContent = message;
   toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 2000);
+  setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-// --- Hash Utility ---
+// --- Hash utility ---
 async function sha256Hex(str) {
   const enc = new TextEncoder();
   const data = enc.encode(str);
@@ -74,7 +82,7 @@ async function sha256Hex(str) {
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// --- Zero-Width Encoding ---
+// --- Zero-width encoding helpers ---
 const ZW = ["\u200B", "\u200C", "\u200D", "\uFEFF"];
 
 function bytesToZW(bytes) {
@@ -96,19 +104,18 @@ function encodeHidden(obj) {
   return bytesToZW(bytes);
 }
 
-// --- Word Count Utility ---
+// --- Word count + typing density ---
 function getWordCount(txt) {
   const t = txt.trim();
   return t ? t.split(/\s+/).length : 0;
 }
 
-// --- Typing Density ---
 function calculateTypingDensity() {
   const activeMinutes = Math.max(session.activeMs / 60000, 1);
   return Math.round(session.keystrokes / activeMinutes);
 }
 
-// --- Hidden Metadata Generator ---
+// --- Generate hidden metadata block ---
 async function makeHiddenBlock() {
   const text = editor.value;
   const words = getWordCount(text);
@@ -128,7 +135,7 @@ async function makeHiddenBlock() {
   return encodeHidden(meta);
 }
 
-// --- Submit Button ---
+// --- Download submission ---
 submitBtn.addEventListener('click', async () => {
   const text = editor.value;
   const hidden = await makeHiddenBlock();
@@ -136,6 +143,7 @@ submitBtn.addEventListener('click', async () => {
   const blob = new Blob([content], { type: 'text/plain' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
+
   const title = titleInput?.value.trim() || "Untitled";
   const name = nameInput?.value.trim() || "Anonymous";
   a.download = `${title} - ${name}.txt`;

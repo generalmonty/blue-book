@@ -1,0 +1,190 @@
+/* --- Reset inherited app-wide restrictions --- */
+html, body, main {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Page & Typography */
+body {
+  background-color: #9EDAE5;
+  color: #0056A8;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 60px 20px 100px;
+  box-sizing: border-box;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #9EDAE5;
+  color: #0056A8;
+  width: 100%;
+}
+
+h2 {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #0056A8;
+}
+
+p, strong, code {
+  color: #0056A8;
+}
+
+/* Upload Button */
+#fileInput {
+  display: none;
+}
+
+.file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0056A8;
+  color: white;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin: 4px 0 16px;
+  width: auto;
+  max-width: fit-content;
+  text-align: center;
+}
+
+.file-label:hover {
+  background-color: #004b94;
+}
+
+/* Metadata & Verification Info */
+.meta {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #0056A8;
+  margin-bottom: 50px;
+}
+
+.meta p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.invalid, .verified {
+  margin-bottom: 10px;
+}
+
+.verified {
+  color: #0056A8;
+  font-weight: bold;
+}
+
+.invalid {
+  color: #c00;
+  font-weight: bold;
+}
+
+/* Essay Container */
+.essay-box {
+  margin-top: 20px;
+  padding: 64px;
+  background: #fff;
+  border-radius: 24px;
+}
+
+.essay-title {
+  font-family: Menlo, Consolas, "Courier New", monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f1f20;
+  margin-bottom: 4px;
+}
+
+.essay-author {
+  font-family: Menlo, Consolas, "Courier New", monospace;
+  font-size: 14px;
+  color: #9D9393;
+  margin-bottom: 24px;
+}
+
+.essay {
+  font-family: Menlo, Consolas, "Courier New", monospace;
+  font-size: 16px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #1f1f20;
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: #0056A8;
+  font-weight: bold;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 260px;
+  background-color: #fff;
+  color: #1f1f20;
+  border: 0;
+  text-align: left;
+  border-radius: 8px;
+  padding: 10px 12px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  white-space: normal;
+  margin-left: 4px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Result block */
+#result {
+  margin-top: 20px;
+  border-top: 1px solid #5FA5CD;
+  padding-top: 30px;
+}
+
+/* Unified red warning style */
+.red-text, .invalid, .mismatch, .suspicious {
+  background-color: #F76262;
+  color: #ffffff !important;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 2px 10px;
+  display: inline-block;
+  line-height: 1.3;
+}
+
+.mismatch {
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  margin-left: 6px;
+}
+
+.suspicious {
+  padding: 2px 8px;
+  font-size: 14px;
+}
+
+/* Inline red fallback */
+.red-inline {
+  color: #F76262 !important;
+  font-weight: 700;
+}

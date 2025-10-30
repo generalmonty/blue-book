@@ -1,132 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📘 Blue Book — Verify Submission</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      background-color: #fafaf8;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #1f1f20;
-      margin: 0;
-      padding: 60px 0;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 50px;
-      box-sizing: border-box;
-      border: 0;
-    }
-
-    h2 {
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-
-    .verified {
-      color: #0a0;
-      font-weight: bold;
-    }
-
-    .invalid {
-      color: #c00;
-      font-weight: bold;
-    }
-
-    .meta {
-      margin-top: 10px;
-      margin-bottom: 40px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #666;
-    }
-
-    #fileInput {
-      margin: 20px 0;
-    }
-
-    /* Essay container */
-    .essay-box {
-      border: 1px solid #E3D8D8;
-      border-radius: 24px;
-      background-color: transparent;
-      padding: 40px;
-      box-sizing: border-box;
-      margin-bottom: 80px;
-    }
-
-    .essay-title {
-      font-family: Menlo, Consolas, "Courier New", monospace;
-      font-size: 22px;
-      font-weight: 600;
-      color: #1f1f20;
-      margin-bottom: 4px;
-    }
-
-    .essay-author {
-      font-family: Menlo, Consolas, "Courier New", monospace;
-      font-size: 14px;
-      color: #9D9393;
-      margin-bottom: 24px;
-    }
-
-    .essay {
-      font-family: Menlo, Consolas, "Courier New", monospace;
-      font-size: 16px;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-word;
-      color: #1f1f20;
-    }
-
-    .tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  color: #9D9393;
-  font-weight: bold;
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 260px;
-  background-color: #fff;
-  color: #1f1f20;
-  border: 1px solid #E3D8D8;
-  text-align: left;
-  border-radius: 8px;
-  padding: 10px 12px;
-  position: absolute;
-  z-index: 10;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.2s;
-  font-size: 12px;
-  line-height: 1.4;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  white-space: normal;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blue Book — Verify Submission</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="verify.css" />
 </head>
 <body>
   <main>
-    <h2>📘 Blue Book Verification</h2>
+    <h2>Blue Book Verification</h2>
     <p>Upload a submitted <code>.txt</code> file to verify authenticity and review its content.</p>
+
+    <label for="fileInput" class="file-label">Choose File</label>
     <input type="file" id="fileInput" accept=".txt" />
+
     <div id="result"></div>
   </main>
+
   <script src="verify.js"></script>
 </body>
 </html>
