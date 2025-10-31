@@ -1,4 +1,4 @@
-// Blue Book Verification – fixed WPM calculation + red pill styling
+// Blue Book Verification – with status moved inside .meta
 
 const fileInput = document.getElementById('fileInput');
 const result = document.getElementById('result');
@@ -93,7 +93,11 @@ fileInput.addEventListener('change', async (e) => {
   const [meta, essay] = decodeHidden(raw);
 
   if (!meta) {
-    result.innerHTML = `<p class="invalid">❌ Verification Failed — No metadata found</p>`;
+    result.innerHTML = `
+      <div class="meta">
+        <p class="invalid">❌ Verification Failed — No metadata found</p>
+        <p>No metadata found. File may have been altered.</p>
+      </div>`;
     return;
   }
 
@@ -128,11 +132,6 @@ fileInput.addEventListener('change', async (e) => {
   const wpmClass = (wpm >= 200) ? 'suspicious' : '';
   const verified = !mismatch && wpm < 200;
 
-  // Status
-  const statusHTML = verified
-    ? `<p class="verified">✅ Verification Passed</p>`
-    : `<p class="invalid">❌ Verification Failed</p>`;
-
   // Word count line
   const wordCountHTML = mismatch
     ? `<strong>Word Count:</strong> ${recordedWordCount} → <span class="red-inline">${actualWordCount}</span> <span class="mismatch">MISMATCH</span>`
@@ -150,8 +149,10 @@ fileInput.addEventListener('change', async (e) => {
 
   // Build results
   const html = `
-    ${statusHTML}
     <div class="meta">
+      <p class="${verified ? 'verified' : 'invalid'}">
+        ${verified ? '✅ Verification Passed' : '❌ Verification Failed'}
+      </p>
       <p><strong>Submitted:</strong> ${submitted}</p>
       <p>${wordCountHTML}</p>
       <p><strong>Character Count:</strong> ${recordedCharCount}</p>

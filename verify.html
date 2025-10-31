@@ -9,12 +9,17 @@
 </head>
 <body>
   <main>
-    <h2>Blue Book Verification</h2>
-    <p>Upload a submitted <code>.txt</code> file to verify authenticity and review its content.</p>
+    <!-- Upload Section -->
+    <div class="upload-section">
+      <h2>Blue Book Verification</h2>
+      <p>
+        Upload a submitted <code>.txt</code> file to verify authenticity and review its content.
+      </p>
+      <label for="fileInput" class="file-label">Choose File</label>
+      <input type="file" id="fileInput" accept=".txt" />
+    </div>
 
-    <label for="fileInput" class="file-label">Choose File</label>
-    <input type="file" id="fileInput" accept=".txt" />
-
+    <!-- Results Section -->
     <div id="result"></div>
   </main>
 

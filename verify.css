@@ -1,10 +1,9 @@
-/* --- Reset inherited app-wide restrictions --- */
+/* --- Base Styles --- */
 html, body, main {
   height: auto !important;
   overflow: visible !important;
 }
 
-/* Page & Typography */
 body {
   background-color: #9EDAE5;
   color: #0056A8;
@@ -21,6 +20,41 @@ main {
   color: #0056A8;
   width: 100%;
 }
+
+/* --- Upload Section Styling --- */
+.upload-section {
+  text-align: left;
+  padding: 40px 20px 0px;
+  background-color: #9EDAE5;
+}
+
+.upload-section h2 {
+  color: #0056A8;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.upload-section p {
+  color: #0056A8;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+#result {
+  border-top: 1px solid #5FA5CD;
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 900px) {
+  .upload-section {
+    padding: 24px 16px 0px;
+  }
+
+  .meta {
+    padding: 16px 12px 0px;
+  }
+}
+
 
 h2 {
   margin-bottom: 8px;
@@ -48,7 +82,7 @@ p, strong, code {
   border-radius: 24px;
   cursor: pointer;
   transition: background 0.2s ease;
-  margin: 4px 0 16px;
+  margin: 16px 0 16px;
   width: auto;
   max-width: fit-content;
   text-align: center;
@@ -187,4 +221,114 @@ p, strong, code {
 .red-inline {
   color: #F76262 !important;
   font-weight: 700;
+}
+
+/* --- Mobile Responsive Layout --- */
+@media (max-width: 900px) {
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  main {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .essay-box {
+    border-radius: 0;
+    padding: 44px;
+    width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .essay-title {
+    font-size: 18px;
+  }
+
+  .essay-author {
+    font-size: 13px;
+  }
+
+  .essay {
+    font-size: 15px;
+  }
+
+  .meta {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .essay-box {
+    padding: 44px 24px;
+    border-radius: 0;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .file-label {
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  #result {
+    margin-top: 12px;
+    padding-top: 20px;
+  }
+}
+
+/* --- Reader Mode for Verified Essays --- */
+@media (max-width: 900px) {
+  body.reader-mode .meta {
+    display: none;
+  }
+
+  .summary-bar {
+    display: none;
+  }
+
+  body.reader-mode .summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0056A8;
+    color: white;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 0 0 12px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  body.reader-mode .summary-bar span {
+    font-size: 14px;
+  }
+
+  body.reader-mode .essay-box {
+    border-radius: 0;
+    width: 100vw;
+    min-height: calc(100vh - 48px);
+    padding: 24px 18px 80px;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+
+  body.reader-mode .essay {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 500px) {
+  body.reader-mode .essay-box {
+    padding: 20px 16px 80px;
+  }
 }
